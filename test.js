@@ -1,5 +1,3 @@
-// test test test
-
 export var Instafilter = (function () {
   'use strict';
 
@@ -13,22 +11,15 @@ export var Instafilter = (function () {
 
   publicAPIs.activate = function (searchInput, options) {
     let settings = Object.assign({}, defaults, options);
+    let list = document.querySelector(settings.listSelector);
+    let rows = list.querySelectorAll(settings.itemSelector);
     searchInput.onkeyup = function() {
-      let list = document.querySelector(settings.listSelector);
-      let rows = list.querySelectorAll(settings.itemSelector);
       let searchTerm = searchInput.value.toLowerCase();
 
-      if (searchTerm.length <= 0) {
-        for (let i = 0; i < rows.length; i++) {
-          rows[i].hidden = false;
-        }
-      } else {
-        for (let i = 0; i < rows.length; i++) {
-          let row = rows[i];
-          let searchNode = row.querySelector(settings.contentSelector);
-          let candidateText = searchNode.textContent.trim().toLowerCase();
-          rows[i].hidden = !termMatchesText(searchTerm, candidateText);
-        }
+      for (let row of rows) {
+        let searchNode = row.querySelector(settings.contentSelector);
+        let candidateText = searchNode.textContent.trim().toLowerCase();
+        row.hidden = searchTerm.length > 0 && !termMatchesText(searchTerm, candidateText);
       }
     };
   };
