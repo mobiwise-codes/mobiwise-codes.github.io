@@ -1,6 +1,6 @@
 // test test test
 
-var Instafilter = (function () {
+export var Instafilter = (function () {
   'use strict';
 
   var defaults = {
